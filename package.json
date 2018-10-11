@@ -1,0 +1,58 @@
+{
+  "name": "phena",
+  "version": "0.0.0",
+  "description": "Petit animation engine",
+  "main": "dist/phena.js",
+  "browser": "dist/phena.umd.js",
+  "module": "dist/phena.esm.js",
+  "scripts": {
+    "test": "ava test/phena.test.js --verbose",
+    "prebuild": "npm test",
+    "start": "microbundle watch -i ./src/phena.js",
+    "build": "microbundle -i ./src/phena.js",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremenichelli/phena.git"
+  },
+  "keywords": [
+    "venn",
+    "dom",
+    "overlap",
+    "elements"
+  ],
+  "author": "Jeremias Menichelli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremenichelli/phena/issues"
+  },
+  "homepage": "https://github.com/jeremenichelli/phena#readme",
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "microbundle": "^0.6.0",
+    "semantic-release": "^15.9.9",
+    "sinon": "^6.2.0",
+    "travis-deploy-once": "^5.0.3"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ]
+  }
+}
