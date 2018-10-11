@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>phena test</title>
+  <style>
+    body {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      height: 500px;
+      overflow: hidden;
+    }
+
+    .pumpkin {
+      width: 20px;
+      height: 20px;
+      font-size: 10em;
+    }
+  </style>
+</head>
+<body>
+  <div class="pumpkin">🎃</div>
+  <script src="dist/phena.umd.js"></script>
+  <script>
+    const pumpkin = document.querySelector('.pumpkin')
+
+    phena({
+      from: -100,
+      to: 100,
+      duration: 500,
+      onUpdate: (value) => pumpkin.style.transform = `translateX(${value}px)`
+    })
+  </script>
+</body>
+</html>
