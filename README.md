@@ -27,6 +27,8 @@ npm i phena --save
 yarn add phena
 ```
 
+_You can also drop it in the browser as a script with source **https://unpkg.com/phena**._
+
 ## Usage
 
 The package exposes one method that receives a context object.
