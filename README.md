@@ -46,7 +46,7 @@ animate({
 })
 ```
 
-`onUpdate` will be queued  called on the next animation frame with the correct value.
+`onUpdate` will be queued on the next frame with the correct value.
 
 ### Context object
 
