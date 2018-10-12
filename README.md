@@ -27,7 +27,7 @@ npm i phena --save
 yarn add phena
 ```
 
-_You can also drop it in the browser as a script with source **https://unpkg.com/phena**._
+You can also drop it in the browser using a script with `https://unpkg.com/phena` as source.
 
 ## Usage
 
