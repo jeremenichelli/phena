@@ -53,22 +53,11 @@ As the only argument, the context object expects as required:
 
 ## Contributing
 
-- Clone or fork this repository.
-- In the root folder, run `yarn` to install the dependencies.
-- Apply your fixes or features.
+To contribute [Node.js](//nodejs.org) [yarn](//yarnpkg.com) are required.
 
-_Update or add tests if necessary._
+Before submiting make sure all tests pass by running `yarn test`.
 
-- Run `yarn test` to make sure there's no regression.
-- Submit a PR 🎉
-
-👉 You can do `yarn test --watch` when working on TDD mode.
-
-### TODO
-
-  - Move `ease` and `now` as helpers in different folder.
-  - Allow multiple values iteration.
-  - Add `onComplete` method.
+This repository follows [conventional commits](//www.conventionalcommits.org) specification.
 
 ## Disclaimer
 
