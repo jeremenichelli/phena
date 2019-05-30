@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "8.9.4"
+  - "10"
 
 branches:
   only:
@@ -13,4 +13,4 @@ script: yarn test
 
 after_success:
   - yarn build
-  - yarn travis-deploy-once "npm run semantic-release"
+  - yarn release
