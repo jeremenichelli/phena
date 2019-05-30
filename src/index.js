@@ -4,14 +4,15 @@
  * @param {*} f - any value
  * @returns {*} same received value
  */
-const ease = f => f
+const ease = (f) => f
 
 /**
  * Returns current time with best precision possible
  * @method now
  * @returns {number} current time in milliseconds
  */
-const now = () => (performance && performance.now) ? performance.now() : Date.now()
+const now = () =>
+  performance && performance.now ? performance.now() : Date.now()
 
 /**
  * Runs a new recursion over requestAnimationFrame
@@ -38,7 +39,7 @@ const step = (context) => {
 }
 
 /**
- * Tweens a value for a certain amount of time
+ * Tweens a value for a certain amount of time using requestAnimationFrame
  * @method tween
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.duration - duration the values should tween
