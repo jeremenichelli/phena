@@ -29,7 +29,7 @@ const step = (context) => {
   const { from, to, duration, startTime, ease, onUpdate } = context
   const currentTime = now()
   const elapsed = Math.min(1, (currentTime - startTime) / duration)
-  const value = ease(from + (to - from) * elapsed)
+  const value = from + (to - from) * ease(elapsed)
   const repeat = elapsed !== 1
 
   onUpdate.call(null, value)

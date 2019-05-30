@@ -59,7 +59,7 @@ test('corrects value when time elapsed exceeds', t => {
   t.is(updateSpy.getCall(2).args[0], 250)
 })
 
-test('accepts ease method', t => {
+test('ease method is called with proportional time', t => {
   global.performance.now = sinon.stub()
     .onCall(0).returns(0)
     .onCall(1).returns(250)
@@ -68,17 +68,12 @@ test('accepts ease method', t => {
 
   const updateSpy = sinon.spy()
   const easeSpy = sinon.spy(v => v * 2)
-  tween({ from: 0, to: 250, duration: 1000, ease: easeSpy, onUpdate: updateSpy })
+  tween({ from: 0, to: 300, duration: 1000, ease: easeSpy, onUpdate: updateSpy })
 
   // check ease calls
   t.is(easeSpy.callCount, 3)
-  t.is(easeSpy.getCall(0).args[0], 250 / 4)
-  t.is(easeSpy.getCall(1).args[0], 250 / 2)
-  t.is(easeSpy.getCall(2).args[0], 250)
-
-  // check update modified values
-  t.is(updateSpy.getCall(0).args[0], 250 / 4 * 2)
-  t.is(updateSpy.getCall(1).args[0], 250 / 2 * 2)
-  t.is(updateSpy.getCall(2).args[0], 250 * 2)
+  t.is(easeSpy.getCall(0).args[0], 0.25)
+  t.is(easeSpy.getCall(1).args[0], 0.5)
+  t.is(easeSpy.getCall(2).args[0], 1)
 })
 
