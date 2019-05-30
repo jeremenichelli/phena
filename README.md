@@ -55,9 +55,7 @@ As the only argument, the context object expects as required:
 
 To contribute [Node.js](//nodejs.org) [yarn](//yarnpkg.com) are required.
 
-Before submiting make sure all tests pass by running `yarn test`.
-
-This repository follows [conventional commits](//www.conventionalcommits.org) specification.
+Before commit make sure to follow [conventional commits](//www.conventionalcommits.org) specification and check all tests pass by running `yarn test`.
 
 ## Disclaimer
 
