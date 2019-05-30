@@ -1,6 +1,6 @@
 import test from 'ava'
-import tween from '.'
 import sinon from 'sinon'
+import Tween from '.'
 
 test.beforeEach(() => {
   // mock request animation frame
@@ -27,13 +27,25 @@ test('calls onUpdate with correct values', (t) => {
     .returns(1000)
 
   const updateSpy = sinon.spy()
-  tween({ from: 0, to: 250, duration: 1000, onUpdate: updateSpy })
+  new Tween({ from: 0, to: 250, duration: 1000, onUpdate: updateSpy })
 
   t.is(updateSpy.callCount, 3)
   t.is(updateSpy.getCall(0).args[0], 250 / 4)
   t.is(updateSpy.getCall(1).args[0], 250 / 2)
   t.is(updateSpy.getCall(2).args[0], 250)
 })
+
+// test('does not start when paused is true', (t) => {
+//   global.performance.now = sinon.stub()
+//   global.requestAnimationFrame = sinon.stub()
+//   const updateSpy = sinon.spy()
+//   new Tween({ from: 0, to: 250, duration: 1000, onUpdate: updateSpy, paused: true })
+
+//   t.is(updateSpy.callCount, 3)
+//   t.is(updateSpy.getCall(0).args[0], 250 / 4)
+//   t.is(updateSpy.getCall(1).args[0], 250 / 2)
+//   t.is(updateSpy.getCall(2).args[0], 250)
+// })
 
 test('calls onUpdate with correct values on negative direction', (t) => {
   global.performance.now = sinon
@@ -48,7 +60,7 @@ test('calls onUpdate with correct values on negative direction', (t) => {
     .returns(1000)
 
   const updateSpy = sinon.spy()
-  tween({ from: 0, to: -250, duration: 1000, onUpdate: updateSpy })
+  new Tween({ from: 0, to: -250, duration: 1000, onUpdate: updateSpy })
 
   t.is(updateSpy.callCount, 3)
   t.is(updateSpy.getCall(0).args[0], -250 / 4)
@@ -69,7 +81,7 @@ test('corrects value when time elapsed exceeds', (t) => {
     .returns(1200)
 
   const updateSpy = sinon.spy()
-  tween({ from: 0, to: 250, duration: 1000, onUpdate: updateSpy })
+  new Tween({ from: 0, to: 250, duration: 1000, onUpdate: updateSpy })
 
   t.is(updateSpy.getCall(2).args[0], 250)
 })
@@ -88,7 +100,7 @@ test('ease method is called with proportional time', (t) => {
 
   const updateSpy = sinon.spy()
   const easeSpy = sinon.spy()
-  tween({
+  new Tween({
     from: 0,
     to: 300,
     duration: 1000,
