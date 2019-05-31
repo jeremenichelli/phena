@@ -20,36 +20,67 @@ yarn add phena
 
 You can also drop it in the browser using a script with `https://unpkg.com/phena` as source.
 
-## Usage
+## `Tween` class
 
-The package exposes one method that receives a context object.
+To start tweening a value import the `Tween` class first and pass the options.
 
 ```js
-import tween from 'phena'
+import { Tween } from 'phena'
 
-const pumpkin = document.querySelector('.pumpkin')
-
-tween({
-  from: -100,
-  to: 100,
-  duration: 450,
-  onUpdate: (value) => {
-    pumpkin.style.transform = `translateX(${ value })`
-  }
-})
+new Tween({ from: 1, to: 10, duration: 2000 })
 ```
 
-`onUpdate` will be queued on each animation frame passing the value corresponding to the time the frame was executed. This method is part of the context object you pass to the library.
+This will iterate values from `1` to `10` in 2 seconds.
 
-### The context object
+To react to this iteration define an `onUpdate` method.
 
-As the only argument, the context object expects as required:
- 
-  - `from`, number representing the initial value.
-  - `to`, also number, for the the final value.
-  - `duration`, number for the time span of the animation.
-  - `onUpdate`, function to be call.
-  - `ease`, function to to alter the value passed to `onUpdate`.
+```js
+import { Tween } from 'phena'
+
+function onUpdate(value) { console.log(value) }
+
+new Tween({ from: 1, to: 10, duration: 2000, onUpdate })
+```
+
+All actions are queued using `requestAnimationFrame` which makes thistweening engine perfect for actions that will trigger paint jobs or layout calculation in the browser.
+
+### `start`
+
+If you passed `paused: true` to options, `start` will allow you to kick off the tweening.
+
+```js
+import { Tween } from 'phena'
+
+const tween = new Tween({ from: 1, to: 10, duration: 2000, paused: false })
+
+tween.start()
+```
+
+### `cancel`
+
+Stop the tweening at any time.
+
+```js
+import { Tween } from 'phena'
+
+const tween = new Tween({ from: 1, to: 10, duration: 2000 })
+
+tween.cancel()
+```
+
+_The library doesn't support pause and resume actions yet._
+
+
+## Available options
+
+List of properties you can pass to `options` object:
+
+ - `from` _required_, initial numeric value
+ - `to` _required_, final numberic value
+ - `duration` _required_, tweening time in milliseconds
+ - `onUpdate`, function to execute on each value update
+ - `paused`, by default `false`
+ - `ease`, function to alter the rate of change in the value pass to `onUpdate`
 
 ## Contributing
 

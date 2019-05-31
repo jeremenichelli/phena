@@ -1,4 +1,11 @@
 /**
+ * Function that does nothing
+ * @method noop
+ * @returns {undefined}
+ */
+const noop = () => {}
+
+/**
  * Default ease function that returns the same value
  * @method ease
  * @param {*} f - any value
@@ -46,9 +53,10 @@ const step = (context) => {
  * @class Tween
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.duration - duration the values should tween
- * @params {*} context.from - initial value
- * @params {*} context.to - end value
+ * @params {number} context.from - initial value
+ * @params {number} context.to - end value
  * @params {function} context.ease - function to alter value variant
+ * @params {boolean} context.paused - don't kick off tweening at instantiation
  * @params {function} context.onUpdate - method to execute on each value change
  */
 export class Tween {
@@ -66,6 +74,10 @@ export class Tween {
    */
   start() {
     this.__context__.startTime = now()
+    this.__context__.onUpdate =
+      typeof this.__context__.onUpdate === 'function'
+        ? this.__context__.onUpdate
+        : noop
     this.__context__.ease =
       typeof this.__context__.ease === 'function' ? this.__context__.ease : ease
 
