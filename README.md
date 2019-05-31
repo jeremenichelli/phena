@@ -84,7 +84,7 @@ List of properties you can pass to `options` object:
 
 ## Contributing
 
-To contribute [Node.js](//nodejs.org) [yarn](//yarnpkg.com) are required.
+To contribute [Node.js](//nodejs.org) and [yarn](//yarnpkg.com) are required.
 
 Before commit make sure to follow [conventional commits](//www.conventionalcommits.org) specification and check all tests pass by running `yarn test`.
 
