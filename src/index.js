@@ -29,18 +29,20 @@ const now = () =>
 const step = (context) => {
   const { from, to, duration, startTime, ease, onUpdate } = context
 
+  // calculate elapsed time and eased value
   const currentTime = now()
   const elapsed = Math.min(1, (currentTime - startTime) / duration)
   const value = from + (to - from) * ease(elapsed)
-  const repeat = elapsed !== 1
 
+  // pass down value to onUpdate callback
   onUpdate(value)
 
-  if (repeat) context.frame = requestAnimationFrame(() => step(context))
+  // invoke a new frame if elapsed is not 1
+  if (elapsed !== 1) context.frame = requestAnimationFrame(() => step(context))
 }
 
 /**
- * Returns an objectto start tweening a value
+ * Returns an object to start tweening a value
  * @class Tween
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.duration - duration the values should tween
@@ -49,12 +51,12 @@ const step = (context) => {
  * @params {function} context.ease - function to alter value variant
  * @params {function} context.onUpdate - method to execute on each value change
  */
-class Tween {
+export class Tween {
   constructor(context) {
     // hoist context
     this.__context__ = context
 
-    this.start()
+    if (!context.paused) this.start()
   }
 
   /**
@@ -79,5 +81,3 @@ class Tween {
     cancelAnimationFrame(this.__context__.frame)
   }
 }
-
-export default Tween
