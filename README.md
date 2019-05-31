@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/jeremenichelli/phena.svg?branch=master)](https://travis-ci.org/jeremenichelli/phena)
 
-🧸 Petit tweening engine based on `requestAnimationFrame`.
+🧸 Petit tweening engine based on `requestAnimationFrame`
 
-_The name of the library comes from [phenakistiscope](https://en.wikipedia.org/wiki/Phenakistiscope) discs, one of the first motion artifacts used for entertainment._
+_The name of the library comes from the [phenakistiscope](https://en.wikipedia.org/wiki/Phenakistiscope) discs, one of the first motion artifacts used for entertainment._
 
 ## Install
 
@@ -42,7 +42,7 @@ function onUpdate(value) { console.log(value) }
 new Tween({ from: 1, to: 10, duration: 2000, onUpdate })
 ```
 
-All actions are queued using `requestAnimationFrame` which makes thistweening engine perfect for actions that will trigger paint jobs or layout calculation in the browser.
+All actions are queued using `requestAnimationFrame` which makes this tweening engine perfect for actions that will trigger paint jobs or layout calculations in the browser.
 
 ### `start`
 
