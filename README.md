@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jeremenichelli/phena.svg?branch=master)](https://travis-ci.org/jeremenichelli/phena)
 
-🧸 Petit tweening engine based on `requestAnimationFrame`
+🔮 Petit tweening engine based on `requestAnimationFrame`
 
 _The name of the library comes from the [phenakistiscope](https://en.wikipedia.org/wiki/Phenakistiscope) discs, one of the first motion artifacts used for entertainment._
 
