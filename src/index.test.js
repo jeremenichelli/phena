@@ -128,3 +128,23 @@ test('ease method is called with proportional time', (t) => {
   t.is(easeSpy.getCall(1).args[0], 0.5)
   t.is(easeSpy.getCall(2).args[0], 1)
 })
+
+test('calls onComplete when tweening is done', (t) => {
+  global.performance.now = sinon
+    .stub()
+    .onCall(0)
+    .returns(0)
+    .onCall(1)
+    .returns(1000)
+
+  const completeSpy = sinon.spy()
+
+  new Tween({
+    from: 0,
+    to: 250,
+    duration: 1000,
+    onComplete: completeSpy
+  })
+
+  t.is(completeSpy.callCount, 1)
+})

@@ -34,7 +34,7 @@ const now = () =>
  * @returns {number} time stamp when the animation run
  */
 const step = (context) => {
-  const { from, to, duration, startTime, ease, onUpdate } = context
+  const { from, to, duration, startTime, ease, onUpdate, onComplete } = context
 
   // calculate elapsed time and eased value
   const currentTime = now()
@@ -45,7 +45,8 @@ const step = (context) => {
   onUpdate(value)
 
   // invoke a new frame if elapsed is not 1
-  if (elapsed !== 1) context.frame = requestAnimationFrame(() => step(context))
+  if (elapsed === 1) onComplete()
+  else context.frame = requestAnimationFrame(() => step(context))
 }
 
 /**
@@ -61,8 +62,11 @@ const step = (context) => {
  */
 export class Tween {
   constructor(context) {
-    // hoist context
+    // hoist context and populate default value
     this.__context__ = context
+    this.__context__.ease = context.ease || ease
+    this.__context__.onUpdate = context.onUpdate || noop
+    this.__context__.onComplete = context.onComplete || noop
 
     if (!context.paused) this.start()
   }
@@ -74,13 +78,6 @@ export class Tween {
    */
   start() {
     this.__context__.startTime = now()
-    this.__context__.onUpdate =
-      typeof this.__context__.onUpdate === 'function'
-        ? this.__context__.onUpdate
-        : noop
-    this.__context__.ease =
-      typeof this.__context__.ease === 'function' ? this.__context__.ease : ease
-
     this.__frame__ = step(this.__context__)
   }
 
