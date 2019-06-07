@@ -34,20 +34,36 @@ const now = () =>
  * @returns {number} time stamp when the animation run
  */
 const step = (context) => {
-  const { from, to, duration, startTime, ease, onUpdate, onComplete } = context
+  const {
+    delay,
+    from,
+    to,
+    duration,
+    startTime,
+    ease,
+    onUpdate,
+    onComplete
+  } = context
 
-  // calculate elapsed time and eased value
   const currentTime = now()
-  const elapsed = Math.min(1, (currentTime - startTime) / duration)
+  const elapsed = currentTime - startTime
+
+  if (delay >= elapsed) {
+    context.frame = requestAnimationFrame(() => step(context))
+    return
+  }
+
+  // calculate progressed according to time and and easing
+  const progress = Math.min(1, (elapsed - delay) / duration)
   const values = from.length
-    ? from.map((value, index) => value + (to[index] - value) * ease(elapsed))
-    : from + (to - from) * ease(elapsed)
+    ? from.map((value, index) => value + (to[index] - value) * ease(progress))
+    : from + (to - from) * ease(progress)
 
   // pass down values to onUpdate callback
   onUpdate(values)
 
-  // invoke a new frame if elapsed is not 1
-  if (elapsed === 1) onComplete()
+  // call complete callback or invoke new frame
+  if (progress === 1) onComplete()
   else context.frame = requestAnimationFrame(() => step(context))
 }
 
@@ -69,6 +85,7 @@ export class Tween {
     this.__context__.ease = context.ease || ease
     this.__context__.onUpdate = context.onUpdate || noop
     this.__context__.onComplete = context.onComplete || noop
+    this.__context__.delay = context.delay || 0
 
     if (!context.paused) this.start()
   }

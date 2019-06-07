@@ -64,25 +64,31 @@ test('accepts tweening a collection of values', (t) => {
   t.deepEqual(updateSpy.getCall(2).args[0], [40, 100])
 })
 
-test('does not call onUpdate when paused', (t) => {
+test('accepts delay and ends tweening with correct value', (t) => {
   global.performance.now = sinon
     .stub()
     .onCall(0)
     .returns(0)
     .onCall(1)
-    .returns(1000)
+    .returns(190)
+    .onCall(2)
+    .returns(700)
+    .onCall(3)
+    .returns(1200)
 
   const updateSpy = sinon.spy()
 
   new Tween({
     from: 0,
     to: 250,
+    delay: 200,
     duration: 1000,
-    onUpdate: updateSpy,
-    paused: true
+    onUpdate: updateSpy
   })
 
-  t.is(updateSpy.callCount, 0)
+  t.is(updateSpy.callCount, 2)
+  t.is(updateSpy.getCall(0).args[0], 125)
+  t.is(updateSpy.getCall(1).args[0], 250)
 })
 
 test('calls onUpdate with correct values on negative direction', (t) => {
@@ -124,6 +130,27 @@ test('corrects value when time elapsed exceeds', (t) => {
   new Tween({ from: 0, to: 250, duration: 1000, onUpdate: updateSpy })
 
   t.is(updateSpy.getCall(2).args[0], 250)
+})
+
+test('does not call onUpdate when paused', (t) => {
+  global.performance.now = sinon
+    .stub()
+    .onCall(0)
+    .returns(0)
+    .onCall(1)
+    .returns(1000)
+
+  const updateSpy = sinon.spy()
+
+  new Tween({
+    from: 0,
+    to: 250,
+    duration: 1000,
+    onUpdate: updateSpy,
+    paused: true
+  })
+
+  t.is(updateSpy.callCount, 0)
 })
 
 test('ease method is called with proportional time', (t) => {
