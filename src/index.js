@@ -84,7 +84,7 @@ const step = (context) => {
  */
 export class Tween {
   constructor(context) {
-    // hoist context and populate default value
+    // hoist context and populate default values
     this.__context__ = context
     this.__context__.ease = context.ease || ease
     this.__context__.onUpdate = context.onUpdate || noop
