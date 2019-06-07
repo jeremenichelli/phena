@@ -78,8 +78,10 @@ List of properties you can pass to `options` object:
  - `from` _required_, initial numeric value
  - `to` _required_, final numberic value
  - `duration` _required_, tweening time in milliseconds
+ - `delay`, delay time in milliseconds
  - `onUpdate`, function to execute on each value update
- - `paused`, by default `false`
+ - `onComplete`, function to execute when tweening has finished
+ - `paused`, don't start tweening on instantiation, `false` by default
  - `ease`, function to alter the rate of change in the value pass to `onUpdate`
 
 ## Contributing

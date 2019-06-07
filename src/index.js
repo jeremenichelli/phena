@@ -26,26 +26,47 @@ const now = () =>
  * @method step
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.startTime - first time stamp of animation
- * @params {number} context.duration - duration the values should tween
- * @params {*} context.from - initial value
- * @params {*} context.to - end value
+ * @params {number} context.duration - duration of tweening in milliseconds
+ * @params {number} context.delay - delay tweening in milliseconds
+ * @params {number|Array} context.from - initial value
+ * @params {number|Array} context.to - end value
  * @params {function} context.ease - function to alter value variant
  * @params {function} context.onUpdate - method to execute on each value change
+ * @params {function} context.onComplete - method to execute when tweening is finished
  * @returns {number} time stamp when the animation run
  */
 const step = (context) => {
-  const { from, to, duration, startTime, ease, onUpdate } = context
+  const {
+    delay,
+    from,
+    to,
+    duration,
+    startTime,
+    ease,
+    onUpdate,
+    onComplete
+  } = context
 
-  // calculate elapsed time and eased value
   const currentTime = now()
-  const elapsed = Math.min(1, (currentTime - startTime) / duration)
-  const value = from + (to - from) * ease(elapsed)
+  const elapsed = currentTime - startTime
 
-  // pass down value to onUpdate callback
-  onUpdate(value)
+  if (delay >= elapsed) {
+    context.frame = requestAnimationFrame(() => step(context))
+    return
+  }
 
-  // invoke a new frame if elapsed is not 1
-  if (elapsed !== 1) context.frame = requestAnimationFrame(() => step(context))
+  // calculate progressed according to time and and easing
+  const progress = Math.min(1, (elapsed - delay) / duration)
+  const values = from.length
+    ? from.map((value, index) => value + (to[index] - value) * ease(progress))
+    : from + (to - from) * ease(progress)
+
+  // pass down values to onUpdate callback
+  onUpdate(values)
+
+  // call complete callback or invoke new frame
+  if (progress === 1) onComplete()
+  else context.frame = requestAnimationFrame(() => step(context))
 }
 
 /**
@@ -53,16 +74,22 @@ const step = (context) => {
  * @class Tween
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.duration - duration the values should tween
+ * @params {number} context.delay - delay tweening in milliseconds
  * @params {number} context.from - initial value
  * @params {number} context.to - end value
  * @params {function} context.ease - function to alter value variant
  * @params {boolean} context.paused - don't kick off tweening at instantiation
  * @params {function} context.onUpdate - method to execute on each value change
+ * @params {function} context.onComplete - method to execute when tweening is finished
  */
 export class Tween {
   constructor(context) {
-    // hoist context
+    // hoist context and populate default values
     this.__context__ = context
+    this.__context__.ease = context.ease || ease
+    this.__context__.onUpdate = context.onUpdate || noop
+    this.__context__.onComplete = context.onComplete || noop
+    this.__context__.delay = context.delay || 0
 
     if (!context.paused) this.start()
   }
@@ -74,13 +101,6 @@ export class Tween {
    */
   start() {
     this.__context__.startTime = now()
-    this.__context__.onUpdate =
-      typeof this.__context__.onUpdate === 'function'
-        ? this.__context__.onUpdate
-        : noop
-    this.__context__.ease =
-      typeof this.__context__.ease === 'function' ? this.__context__.ease : ease
-
     this.__frame__ = step(this.__context__)
   }
 
