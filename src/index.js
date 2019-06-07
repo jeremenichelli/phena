@@ -27,8 +27,8 @@ const now = () =>
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.startTime - first time stamp of animation
  * @params {number} context.duration - duration the values should tween
- * @params {*} context.from - initial value
- * @params {*} context.to - end value
+ * @params {number|Array} context.from - initial value
+ * @params {number|Array} context.to - end value
  * @params {function} context.ease - function to alter value variant
  * @params {function} context.onUpdate - method to execute on each value change
  * @returns {number} time stamp when the animation run
@@ -39,10 +39,12 @@ const step = (context) => {
   // calculate elapsed time and eased value
   const currentTime = now()
   const elapsed = Math.min(1, (currentTime - startTime) / duration)
-  const value = from + (to - from) * ease(elapsed)
+  const values = from.length
+    ? from.map((value, index) => value + (to[index] - value) * ease(elapsed))
+    : from + (to - from) * ease(elapsed)
 
-  // pass down value to onUpdate callback
-  onUpdate(value)
+  // pass down values to onUpdate callback
+  onUpdate(values)
 
   // invoke a new frame if elapsed is not 1
   if (elapsed === 1) onComplete()

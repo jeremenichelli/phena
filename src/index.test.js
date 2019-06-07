@@ -15,7 +15,7 @@ test.afterEach(() => {
   global.requestAnimationFrame.reset()
 })
 
-test('calls onUpdate with correct values', (t) => {
+test('calls onUpdate with correct value', (t) => {
   global.performance.now = sinon
     .stub()
     .onCall(0)
@@ -35,6 +35,33 @@ test('calls onUpdate with correct values', (t) => {
   t.is(updateSpy.getCall(0).args[0], 250 / 4)
   t.is(updateSpy.getCall(1).args[0], 250 / 2)
   t.is(updateSpy.getCall(2).args[0], 250)
+})
+
+test('accepts tweening a collection of values', (t) => {
+  global.performance.now = sinon
+    .stub()
+    .onCall(0)
+    .returns(0)
+    .onCall(1)
+    .returns(250)
+    .onCall(2)
+    .returns(500)
+    .onCall(3)
+    .returns(1000)
+
+  const updateSpy = sinon.spy()
+
+  new Tween({
+    from: [20, 0],
+    to: [40, 100],
+    duration: 1000,
+    onUpdate: updateSpy
+  })
+
+  t.deepEqual(updateSpy.callCount, 3)
+  t.deepEqual(updateSpy.getCall(0).args[0], [25, 25])
+  t.deepEqual(updateSpy.getCall(1).args[0], [30, 50])
+  t.deepEqual(updateSpy.getCall(2).args[0], [40, 100])
 })
 
 test('does not call onUpdate when paused', (t) => {
