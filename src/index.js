@@ -26,11 +26,13 @@ const now = () =>
  * @method step
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.startTime - first time stamp of animation
- * @params {number} context.duration - duration the values should tween
+ * @params {number} context.duration - duration of tweening in milliseconds
+ * @params {number} context.delay - delay tweening in milliseconds
  * @params {number|Array} context.from - initial value
  * @params {number|Array} context.to - end value
  * @params {function} context.ease - function to alter value variant
  * @params {function} context.onUpdate - method to execute on each value change
+ * @params {function} context.onComplete - method to execute when tweening is finished
  * @returns {number} time stamp when the animation run
  */
 const step = (context) => {
@@ -72,11 +74,13 @@ const step = (context) => {
  * @class Tween
  * @params {Object} context - object with values, starting time and methods
  * @params {number} context.duration - duration the values should tween
+ * @params {number} context.delay - delay tweening in milliseconds
  * @params {number} context.from - initial value
  * @params {number} context.to - end value
  * @params {function} context.ease - function to alter value variant
  * @params {boolean} context.paused - don't kick off tweening at instantiation
  * @params {function} context.onUpdate - method to execute on each value change
+ * @params {function} context.onComplete - method to execute when tweening is finished
  */
 export class Tween {
   constructor(context) {
