@@ -84,12 +84,15 @@ const step = (context) => {
  */
 export class Tween {
   constructor(context) {
-    // hoist context and populate default values
-    this.__context__ = context
-    this.__context__.ease = context.ease || ease
-    this.__context__.onUpdate = context.onUpdate || noop
-    this.__context__.onComplete = context.onComplete || noop
-    this.__context__.delay = context.delay || 0
+    /*
+     * private fields minified to have less impact on bundle size
+     * __c hoists context object passed to the constructor
+     */
+    this.__c = context
+    this.__c.ease = context.ease || ease
+    this.__c.onUpdate = context.onUpdate || noop
+    this.__c.onComplete = context.onComplete || noop
+    this.__c.delay = context.delay || 0
 
     if (!context.paused) this.start()
   }
@@ -100,8 +103,8 @@ export class Tween {
    * @memberof Tween
    */
   start() {
-    this.__context__.startTime = now()
-    this.__frame__ = step(this.__context__)
+    this.__c.startTime = now()
+    step(this.__c)
   }
 
   /**
@@ -110,6 +113,6 @@ export class Tween {
    * @memberof Tween
    */
   cancel() {
-    cancelAnimationFrame(this.__context__.frame)
+    cancelAnimationFrame(this.__c.frame)
   }
 }
